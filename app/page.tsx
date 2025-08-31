@@ -171,7 +171,7 @@ export default function Home() {
 
             {/* 符号网格 */}
             {filteredSymbols.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-16 max-w-7xl mx-auto">
                 {filteredSymbols.map((symbol) => (
                   <div
                     key={symbol.id}

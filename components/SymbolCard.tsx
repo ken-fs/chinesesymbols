@@ -104,8 +104,8 @@ export default function SymbolCard({
   return (
     <div
       className={`
-        relative group glass-effect rounded-lg p-6 transition-all duration-300
-        hover:cyber-glow hover:scale-105 hover:rotate-1 w-full min-h-[340px] flex flex-col
+        relative group glass-effect rounded-lg p-4 transition-all duration-300
+        hover:cyber-glow hover:scale-105 hover:rotate-1 w-full h-[400px] flex flex-col
         ${isHovered ? "animate-glow" : ""}
         ${symbol.isPopular ? "ring-2 ring-tech-red-500" : ""}
       `}
@@ -119,11 +119,11 @@ export default function SymbolCard({
         </div>
       )}
 
-      {/* 符号显示 */}
+      {/* 符号显示区域 */}
       <div className="text-center mb-3 flex-shrink-0">
-        <div className="flex items-center justify-between mb-1">
+        <div className="flex items-center justify-between mb-2">
           <div className="flex-1"></div>
-          <div className="text-4xl font-chinese neon-text animate-float">
+          <div className="text-3xl font-chinese neon-text animate-float">
             {symbol.symbol}
           </div>
           <button onClick={handleFavorite} className="flex-1 flex justify-end">
@@ -143,18 +143,18 @@ export default function SymbolCard({
         </div>
       </div>
 
-      {/* 含义和描述 */}
-      <div className="text-center flex-grow flex flex-col justify-center">
+      {/* 含义和描述区域 */}
+      <div className="text-center flex-grow flex flex-col justify-center mb-3">
         <h3 className="text-sm font-semibold text-white mb-2 line-clamp-1">
           {symbol.meaning}
         </h3>
-        <p className="text-gray-300 text-xs mb-3 line-clamp-2 leading-relaxed">
+        <p className="text-gray-300 text-xs line-clamp-2 leading-relaxed">
           {symbol.description}
         </p>
       </div>
 
-      {/* 分类标签 */}
-      <div className="flex flex-wrap gap-1 mb-4 flex-shrink-0">
+      {/* 分类标签区域 */}
+      <div className="flex flex-wrap gap-1 mb-3 flex-shrink-0">
         {symbol.categories.slice(0, 2).map((category) => {
           // 创建分类名称的缩写
           const getCategoryAbbr = (cat: string) => {
@@ -201,11 +201,11 @@ export default function SymbolCard({
         )}
       </div>
 
-      {/* 操作按钮 */}
-      <div className="flex justify-center space-x-2 flex-shrink-0">
+      {/* 操作按钮区域 */}
+      <div className="flex justify-center space-x-1 flex-shrink-0 mt-auto">
         <button
           className={`
-            cyber-button px-2 py-1.5 rounded-lg text-xs font-cyber transition-all duration-300 flex-1
+            cyber-button px-2 py-1 rounded-lg text-xs font-cyber transition-all duration-300 flex-1
             ${
               isCopied
                 ? "bg-green-500/20 text-green-400 border-green-500/50"
@@ -214,12 +214,12 @@ export default function SymbolCard({
           `}
           onClick={handleCopy}
         >
-          {isCopied ? "✓ Copied" : "📋 Copy"}
+          {isCopied ? "✓" : "📋"}
         </button>
 
         <button
           className={`
-            cyber-button px-2 py-1.5 rounded-lg text-xs font-cyber transition-all duration-300 flex-1
+            cyber-button px-2 py-1 rounded-lg text-xs font-cyber transition-all duration-300 flex-1
             ${
               isPlaying
                 ? "bg-blue-500/20 text-blue-400 border-blue-500/50"
@@ -228,14 +228,14 @@ export default function SymbolCard({
           `}
           onClick={isPlaying ? handleStopSpeak : handleSpeak}
         >
-          {isPlaying ? "⏹️ Stop" : "🔊 Speak"}
+          {isPlaying ? "⏹️" : "🔊"}
         </button>
 
         <button
-          className="cyber-button px-2 py-1.5 rounded-lg text-xs font-cyber text-tech-red-300 hover:text-white transition-all duration-300 flex-1"
+          className="cyber-button px-2 py-1 rounded-lg text-xs font-cyber text-tech-red-300 hover:text-white transition-all duration-300 flex-1"
           onClick={handleDetailsClick}
         >
-          🔍 Details
+          🔍
         </button>
       </div>
 
