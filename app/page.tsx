@@ -46,6 +46,15 @@ export default function Home() {
     });
   };
 
+  const handleCategoryClick = (category: string) => {
+    // 如果点击的是当前已选中的分类，则清除筛选
+    if (selectedCategory === category) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(category as SymbolCategory);
+    }
+  };
+
   const closeToast = () => {
     setToast((prev) => ({ ...prev, isVisible: false }));
   };
@@ -119,7 +128,12 @@ export default function Home() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
                 {filteredSymbols.map((symbol) => (
                   <div key={symbol.id} className="animate-slide-up">
-                    <SymbolCard symbol={symbol} onCopy={handleCopy} />
+                    <SymbolCard
+                      symbol={symbol}
+                      onCopy={handleCopy}
+                      onCategoryClick={handleCategoryClick}
+                      selectedCategory={selectedCategory}
+                    />
                   </div>
                 ))}
               </div>

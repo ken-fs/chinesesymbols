@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ChineseSymbol } from "@/types/symbol";
 import { chineseSymbols } from "@/data/symbols";
@@ -11,6 +11,7 @@ export default function SymbolDetailPage() {
   const params = useParams();
   const router = useRouter();
   const [symbol, setSymbol] = useState<ChineseSymbol | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     isVisible: boolean;
@@ -20,6 +21,7 @@ export default function SymbolDetailPage() {
     isVisible: false,
     type: "success",
   });
+  const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   useEffect(() => {
     const foundSymbol = chineseSymbols.find((s) => s.id === params.id);
@@ -27,6 +29,15 @@ export default function SymbolDetailPage() {
       setSymbol(foundSymbol);
     }
   }, [params.id]);
+
+  // 清理函数，组件卸载时停止语音播放
+  useEffect(() => {
+    return () => {
+      if (speechSynthesisRef.current) {
+        speechSynthesis.cancel();
+      }
+    };
+  }, []);
 
   const handleCopy = async (text: string) => {
     try {
@@ -42,6 +53,49 @@ export default function SymbolDetailPage() {
         isVisible: true,
         type: "error",
       });
+    }
+  };
+
+  const handleSpeak = () => {
+    if (!symbol) return;
+
+    // 停止当前播放
+    if (speechSynthesisRef.current) {
+      speechSynthesis.cancel();
+    }
+
+    // 创建新的语音合成
+    const utterance = new SpeechSynthesisUtterance();
+    utterance.text = symbol.symbol; // 朗读中文符号
+    utterance.lang = "zh-CN"; // 设置为中文
+    utterance.rate = 0.8; // 语速稍慢
+    utterance.pitch = 1.0; // 音调正常
+    utterance.volume = 0.8; // 音量
+
+    // 设置事件监听器
+    utterance.onstart = () => {
+      setIsPlaying(true);
+    };
+
+    utterance.onend = () => {
+      setIsPlaying(false);
+      speechSynthesisRef.current = null;
+    };
+
+    utterance.onerror = () => {
+      setIsPlaying(false);
+      speechSynthesisRef.current = null;
+    };
+
+    speechSynthesisRef.current = utterance;
+    speechSynthesis.speak(utterance);
+  };
+
+  const handleStopSpeak = () => {
+    if (speechSynthesisRef.current) {
+      speechSynthesis.cancel();
+      setIsPlaying(false);
+      speechSynthesisRef.current = null;
     }
   };
 
@@ -129,7 +183,7 @@ export default function SymbolDetailPage() {
               </p>
             </div>
 
-            {/* 复制按钮 */}
+            {/* 操作按钮 */}
             <div className="mt-8 flex justify-center space-x-4">
               <button
                 onClick={() => handleCopy(symbol.symbol)}
@@ -142,6 +196,19 @@ export default function SymbolDetailPage() {
                 className="cyber-button px-6 py-3 rounded-lg text-tech-red-300 hover:text-white transition-all duration-300"
               >
                 📋 Copy Pinyin
+              </button>
+              <button
+                onClick={isPlaying ? handleStopSpeak : handleSpeak}
+                className={`
+                  cyber-button px-6 py-3 rounded-lg transition-all duration-300
+                  ${
+                    isPlaying
+                      ? "bg-blue-500/20 text-blue-400 border-blue-500/50"
+                      : "text-tech-red-300 hover:text-white"
+                  }
+                `}
+              >
+                {isPlaying ? "⏹️ Stop" : "🔊 Speak"}
               </button>
             </div>
           </div>

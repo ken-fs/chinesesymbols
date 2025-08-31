@@ -1,18 +1,36 @@
 "use client";
 
 import { ChineseSymbol } from "@/types/symbol";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 interface SymbolCardProps {
   symbol: ChineseSymbol;
   onCopy: (symbol: string) => void;
+  onCategoryClick?: (category: string) => void;
+  selectedCategory?: string | null;
 }
 
-export default function SymbolCard({ symbol, onCopy }: SymbolCardProps) {
+export default function SymbolCard({
+  symbol,
+  onCopy,
+  onCategoryClick,
+  selectedCategory,
+}: SymbolCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const router = useRouter();
+  const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  // 清理函数，组件卸载时停止语音播放
+  useEffect(() => {
+    return () => {
+      if (speechSynthesisRef.current) {
+        speechSynthesis.cancel();
+      }
+    };
+  }, []);
 
   const handleCopy = async () => {
     try {
@@ -25,17 +43,58 @@ export default function SymbolCard({ symbol, onCopy }: SymbolCardProps) {
     }
   };
 
+  const handleSpeak = () => {
+    // 停止当前播放
+    if (speechSynthesisRef.current) {
+      speechSynthesis.speak(speechSynthesisRef.current);
+      speechSynthesis.cancel();
+    }
+
+    // 创建新的语音合成
+    const utterance = new SpeechSynthesisUtterance();
+    utterance.text = symbol.symbol; // 朗读中文符号
+    utterance.lang = "zh-CN"; // 设置为中文
+    utterance.rate = 0.8; // 语速稍慢
+    utterance.pitch = 1.0; // 音调正常
+    utterance.volume = 0.8; // 音量
+
+    // 设置事件监听器
+    utterance.onstart = () => {
+      setIsPlaying(true);
+    };
+
+    utterance.onend = () => {
+      setIsPlaying(false);
+      speechSynthesisRef.current = null;
+    };
+
+    utterance.onerror = () => {
+      setIsPlaying(false);
+      speechSynthesisRef.current = null;
+    };
+
+    speechSynthesisRef.current = utterance;
+    speechSynthesis.speak(utterance);
+  };
+
+  const handleStopSpeak = () => {
+    if (speechSynthesisRef.current) {
+      speechSynthesis.cancel();
+      setIsPlaying(false);
+      speechSynthesisRef.current = null;
+    }
+  };
+
   return (
     <div
       className={`
-        relative group glass-effect rounded-lg p-6 transition-all duration-300 cursor-pointer
+        relative group glass-effect rounded-lg p-6 transition-all duration-300
         hover:cyber-glow hover:scale-105 hover:rotate-1 w-full min-h-[340px] flex flex-col
         ${isHovered ? "animate-glow" : ""}
         ${symbol.isPopular ? "ring-2 ring-tech-red-500" : ""}
       `}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={handleCopy}
     >
       {/* 热门标签 */}
       {symbol.isPopular && (
@@ -86,13 +145,23 @@ export default function SymbolCard({ symbol, onCopy }: SymbolCardProps) {
             return abbreviations[cat] || cat;
           };
 
+          const isSelected = selectedCategory === category;
+
           return (
-            <span
+            <button
               key={category}
-              className="text-xs px-2 py-1 bg-tech-red-500/20 text-tech-red-300 rounded-full border border-tech-red-500/30"
+              className={`
+                text-xs px-2 py-1 rounded-full border transition-all duration-200 cursor-pointer
+                ${
+                  isSelected
+                    ? "bg-tech-red-500/40 text-white border-tech-red-500/60 shadow-lg"
+                    : "bg-tech-red-500/20 text-tech-red-300 border-tech-red-500/30 hover:bg-tech-red-500/30 hover:text-white"
+                }
+              `}
+              onClick={() => onCategoryClick?.(category)}
             >
               {getCategoryAbbr(category)}
-            </span>
+            </button>
           );
         })}
         {symbol.categories.length > 2 && (
@@ -113,20 +182,28 @@ export default function SymbolCard({ symbol, onCopy }: SymbolCardProps) {
                 : "text-tech-red-300 hover:text-white"
             }
           `}
-          onClick={(e) => {
-            e.stopPropagation();
-            handleCopy();
-          }}
+          onClick={handleCopy}
         >
           {isCopied ? "✓ Copied" : "📋 Copy"}
         </button>
 
         <button
+          className={`
+            cyber-button px-2 py-1.5 rounded-lg text-xs font-cyber transition-all duration-300 flex-1
+            ${
+              isPlaying
+                ? "bg-blue-500/20 text-blue-400 border-blue-500/50"
+                : "text-tech-red-300 hover:text-white"
+            }
+          `}
+          onClick={isPlaying ? handleStopSpeak : handleSpeak}
+        >
+          {isPlaying ? "⏹️ Stop" : "🔊 Speak"}
+        </button>
+
+        <button
           className="cyber-button px-2 py-1.5 rounded-lg text-xs font-cyber text-tech-red-300 hover:text-white transition-all duration-300 flex-1"
-          onClick={(e) => {
-            e.stopPropagation();
-            router.push(`/symbol/${symbol.id}`);
-          }}
+          onClick={() => router.push(`/symbol/${symbol.id}`)}
         >
           🔍 Details
         </button>
