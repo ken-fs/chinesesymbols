@@ -206,6 +206,7 @@ export default function SymbolCard({
               "Fruits & Flowers": "Flowers",
               "Objects & Tools": "Tools",
               "Chinese Idioms": "Idioms",
+              Numbers: "Numbers",
             };
             return abbreviations[cat] || cat;
           };

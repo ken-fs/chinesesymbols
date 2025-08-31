@@ -106,4 +106,11 @@ export const categories: CategoryInfo[] = [
     icon: "📜",
     color: "from-amber-600 to-yellow-600",
   },
+  {
+    id: "Numbers",
+    name: "Numbers",
+    description: "Chinese number symbols and characters",
+    icon: "🔢",
+    color: "from-cyan-500 to-blue-500",
+  },
 ];

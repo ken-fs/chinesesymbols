@@ -24,7 +24,8 @@ export type SymbolCategory =
   | "Chinese Zodiac"
   | "Wisdom & Knowledge"
   | "Emotions & Feelings"
-  | "Chinese Idioms";
+  | "Chinese Idioms"
+  | "Numbers";
 
 export interface CategoryInfo {
   id: SymbolCategory;
