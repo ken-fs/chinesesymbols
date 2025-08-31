@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ChineseSymbol, SymbolCategory } from "@/types/symbol";
 import { chineseSymbols } from "@/data/symbols";
 import SymbolCard from "@/components/SymbolCard";
@@ -10,6 +10,7 @@ import Toast from "@/components/Toast";
 import QuickAccessMenu from "@/components/QuickAccessMenu";
 import UserSettingsPanel from "@/components/UserSettingsPanel";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
+import { generateSymbolKey } from "@/utils/keyGenerator";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] =
@@ -27,9 +28,25 @@ export default function Home() {
   });
   const { userData } = useUserPreferences();
 
+  // 获取字体大小类名
+  const getFontSizeClass = (size: "small" | "medium" | "large") => {
+    switch (size) {
+      case "small":
+        return "text-sm";
+      case "medium":
+        return "text-base";
+      case "large":
+        return "text-lg";
+      default:
+        return "text-base";
+    }
+  };
+
+  const fontSizeClass = getFontSizeClass(userData.preferences.fontSize);
+
   // 筛选符号
   const filteredSymbols = useMemo(() => {
-    return chineseSymbols.filter((symbol) => {
+    const filtered = chineseSymbols.filter((symbol) => {
       const matchesCategory =
         !selectedCategory || symbol.categories.includes(selectedCategory);
       const matchesSearch =
@@ -41,7 +58,9 @@ export default function Home() {
 
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchTerm]);
+
+    return filtered;
+  }, [selectedCategory, searchTerm, chineseSymbols]);
 
   const handleCopy = (symbol: string) => {
     setToast({
@@ -51,12 +70,12 @@ export default function Home() {
     });
   };
 
-  const handleCategoryClick = (category: string) => {
+  const handleCategoryClick = (category: SymbolCategory | null) => {
     // 如果点击的是当前已选中的分类，则清除筛选
     if (selectedCategory === category) {
       setSelectedCategory(null);
     } else {
-      setSelectedCategory(category as SymbolCategory);
+      setSelectedCategory(category);
     }
   };
 
@@ -81,7 +100,9 @@ export default function Home() {
           <h1 className="text-6xl md:text-8xl font-cyber font-bold neon-text mb-4 animate-fade-in">
             Chinese Symbols
           </h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          <p
+            className={`text-xl ${fontSizeClass} text-gray-300 mb-8 max-w-2xl mx-auto`}
+          >
             Explore the beauty and meaning of Chinese characters • Copy and
             paste Chinese symbols • Learn traditional culture
           </p>
@@ -134,7 +155,7 @@ export default function Home() {
             <div className="glass-effect rounded-xl p-6 sticky top-6">
               <CategoryFilter
                 selectedCategory={selectedCategory}
-                onCategoryChange={setSelectedCategory}
+                onCategoryChange={handleCategoryClick}
               />
             </div>
           </aside>
@@ -174,7 +195,7 @@ export default function Home() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-16 max-w-7xl mx-auto">
                 {filteredSymbols.map((symbol) => (
                   <div
-                    key={symbol.id}
+                    key={generateSymbolKey(symbol)}
                     id={`symbol-${symbol.id}`}
                     className="animate-slide-up"
                   >

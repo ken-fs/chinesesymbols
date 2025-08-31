@@ -3,10 +3,15 @@
 import { useState } from "react";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { chineseSymbols } from "@/data/symbols";
+import { SymbolCategory } from "@/types/symbol";
+import {
+  generateSymbolKey,
+  generateQuickCategoryKey,
+} from "@/utils/keyGenerator";
 
 interface QuickAccessMenuProps {
   onSymbolClick: (symbolId: string) => void;
-  onCategoryClick: (category: string) => void;
+  onCategoryClick: (category: SymbolCategory | null) => void;
 }
 
 export default function QuickAccessMenu({
@@ -69,7 +74,7 @@ export default function QuickAccessMenu({
                 <div className="grid grid-cols-4 gap-2">
                   {favoriteSymbols.slice(0, 8).map((symbol) => (
                     <button
-                      key={symbol.id}
+                      key={generateSymbolKey(symbol)}
                       onClick={() => handleSymbolClick(symbol.id)}
                       className="p-2 bg-tech-red-500/10 hover:bg-tech-red-500/20 rounded-lg transition-all duration-200 text-center"
                     >
@@ -97,7 +102,7 @@ export default function QuickAccessMenu({
                 <div className="grid grid-cols-4 gap-2">
                   {recentlyUsedSymbols.slice(0, 8).map((symbol) => (
                     <button
-                      key={symbol.id}
+                      key={generateSymbolKey(symbol)}
                       onClick={() => handleSymbolClick(symbol.id)}
                       className="p-2 bg-tech-red-500/10 hover:bg-tech-red-500/20 rounded-lg transition-all duration-200 text-center"
                     >
@@ -129,9 +134,9 @@ export default function QuickAccessMenu({
                   { id: "Nature", name: "Nature", icon: "🌸" },
                 ].map((category) => (
                   <button
-                    key={category.id}
+                    key={generateQuickCategoryKey(category.id)}
                     onClick={() => {
-                      onCategoryClick(category.id);
+                      onCategoryClick(category.id as SymbolCategory);
                       setIsOpen(false);
                     }}
                     className="p-3 bg-tech-red-500/10 hover:bg-tech-red-500/20 rounded-lg transition-all duration-200 flex items-center space-x-2"

@@ -1,15 +1,16 @@
 "use client";
 
-import { ChineseSymbol } from "@/types/symbol";
+import { ChineseSymbol, SymbolCategory } from "@/types/symbol";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
+import { generateCategoryKey } from "@/utils/keyGenerator";
 
 interface SymbolCardProps {
   symbol: ChineseSymbol;
   onCopy: (symbol: string) => void;
-  onCategoryClick?: (category: string) => void;
-  selectedCategory?: string | null;
+  onCategoryClick?: (category: SymbolCategory | null) => void;
+  selectedCategory?: SymbolCategory | null;
 }
 
 export default function SymbolCard({
@@ -23,8 +24,13 @@ export default function SymbolCard({
   const [isPlaying, setIsPlaying] = useState(false);
   const router = useRouter();
   const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
-  const { isFavorite, addFavorite, removeFavorite, addToRecentlyUsed } =
-    useUserPreferences();
+  const {
+    isFavorite,
+    addFavorite,
+    removeFavorite,
+    addToRecentlyUsed,
+    userData,
+  } = useUserPreferences();
 
   // 清理函数，组件卸载时停止语音播放
   useEffect(() => {
@@ -80,6 +86,17 @@ export default function SymbolCard({
     speechSynthesis.speak(utterance);
   };
 
+  // 自动播放功能
+  useEffect(() => {
+    if (userData.preferences.autoPlay && !isPlaying) {
+      const timer = setTimeout(() => {
+        handleSpeak();
+      }, 1000); // 1秒后自动播放
+
+      return () => clearTimeout(timer);
+    }
+  }, [userData.preferences.autoPlay]);
+
   const handleStopSpeak = () => {
     if (speechSynthesisRef.current) {
       speechSynthesis.cancel();
@@ -100,6 +117,22 @@ export default function SymbolCard({
     addToRecentlyUsed(symbol.id);
     router.push(`/symbol/${symbol.id}`);
   };
+
+  // 获取字体大小类名
+  const getFontSizeClass = (size: "small" | "medium" | "large") => {
+    switch (size) {
+      case "small":
+        return "text-xs";
+      case "medium":
+        return "text-sm";
+      case "large":
+        return "text-base";
+      default:
+        return "text-sm";
+    }
+  };
+
+  const fontSizeClass = getFontSizeClass(userData.preferences.fontSize);
 
   return (
     <div
@@ -148,14 +181,16 @@ export default function SymbolCard({
         <h3 className="text-sm font-semibold text-white mb-2 line-clamp-1">
           {symbol.meaning}
         </h3>
-        <p className="text-gray-300 text-xs line-clamp-2 leading-relaxed">
+        <p
+          className={`text-gray-300 ${fontSizeClass} line-clamp-2 leading-relaxed`}
+        >
           {symbol.description}
         </p>
       </div>
 
       {/* 分类标签区域 */}
       <div className="flex flex-wrap gap-1 mb-3 flex-shrink-0">
-        {symbol.categories.slice(0, 2).map((category) => {
+        {symbol.categories.slice(0, 2).map((category, index) => {
           // 创建分类名称的缩写
           const getCategoryAbbr = (cat: string) => {
             const abbreviations: { [key: string]: string } = {
@@ -179,7 +214,7 @@ export default function SymbolCard({
 
           return (
             <button
-              key={category}
+              key={generateCategoryKey(symbol.id, index)}
               className={`
                 text-xs px-2 py-1 rounded-full border transition-all duration-200 cursor-pointer
                 ${

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 
 interface UserSettingsPanelProps {
@@ -16,6 +16,11 @@ export default function UserSettingsPanel({
   const [localPreferences, setLocalPreferences] = useState(
     userData.preferences
   );
+
+  // 当 userData 变化时更新本地状态
+  useEffect(() => {
+    setLocalPreferences(userData.preferences);
+  }, [userData.preferences]);
 
   const handleSave = () => {
     updatePreferences(localPreferences);

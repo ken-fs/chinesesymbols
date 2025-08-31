@@ -194,7 +194,7 @@ export const chineseSymbols: ChineseSymbol[] = [
     isPopular: true,
   },
   {
-    id: "strong",
+    id: "strong-2",
     symbol: "强",
     pinyin: "qiáng",
     meaning: "Strong",
@@ -495,7 +495,7 @@ export const chineseSymbols: ChineseSymbol[] = [
 
   // 爱情与浪漫 - 更多符号
   {
-    id: "heart",
+    id: "heart-2",
     symbol: "心",
     pinyin: "xīn",
     meaning: "Heart",
@@ -505,7 +505,7 @@ export const chineseSymbols: ChineseSymbol[] = [
     isPopular: true,
   },
   {
-    id: "kiss",
+    id: "kiss-2",
     symbol: "吻",
     pinyin: "wěn",
     meaning: "Kiss",
@@ -514,7 +514,7 @@ export const chineseSymbols: ChineseSymbol[] = [
     tags: ["kiss", "love", "affection"],
   },
   {
-    id: "hug",
+    id: "hug-2",
     symbol: "抱",
     pinyin: "bào",
     meaning: "Hug/Embrace",
@@ -532,7 +532,7 @@ export const chineseSymbols: ChineseSymbol[] = [
     tags: ["sweet", "happiness", "love"],
   },
   {
-    id: "romance",
+    id: "romance-2",
     symbol: "情",
     pinyin: "qíng",
     meaning: "Romance/Emotion",
@@ -571,7 +571,7 @@ export const chineseSymbols: ChineseSymbol[] = [
 
   // 家庭与关系 - 更多符号
   {
-    id: "father",
+    id: "father-2",
     symbol: "父",
     pinyin: "fù",
     meaning: "Father",
@@ -580,7 +580,7 @@ export const chineseSymbols: ChineseSymbol[] = [
     tags: ["father", "parent", "protection", "guidance"],
   },
   {
-    id: "mother",
+    id: "mother-2",
     symbol: "母",
     pinyin: "mǔ",
     meaning: "Mother",
@@ -625,7 +625,7 @@ export const chineseSymbols: ChineseSymbol[] = [
     tags: ["sister", "sibling", "care"],
   },
   {
-    id: "family",
+    id: "family-2",
     symbol: "家",
     pinyin: "jiā",
     meaning: "Family/Home",
@@ -646,7 +646,7 @@ export const chineseSymbols: ChineseSymbol[] = [
 
   // 动物 - 更多符号
   {
-    id: "elephant",
+    id: "elephant-2",
     symbol: "象",
     pinyin: "xiàng",
     meaning: "Elephant",
@@ -655,7 +655,7 @@ export const chineseSymbols: ChineseSymbol[] = [
     tags: ["elephant", "wisdom", "memory", "large"],
   },
   {
-    id: "lion",
+    id: "lion-2",
     symbol: "狮",
     pinyin: "shī",
     meaning: "Lion",
@@ -682,7 +682,7 @@ export const chineseSymbols: ChineseSymbol[] = [
     tags: ["fox", "clever", "intelligent", "cunning"],
   },
   {
-    id: "wolf",
+    id: "wolf-2",
     symbol: "狼",
     pinyin: "láng",
     meaning: "Wolf",
@@ -691,7 +691,7 @@ export const chineseSymbols: ChineseSymbol[] = [
     tags: ["wolf", "loyalty", "teamwork", "pack"],
   },
   {
-    id: "rabbit",
+    id: "rabbit-2",
     symbol: "兔",
     pinyin: "tù",
     meaning: "Rabbit",
@@ -700,7 +700,7 @@ export const chineseSymbols: ChineseSymbol[] = [
     tags: ["rabbit", "fertility", "luck", "small"],
   },
   {
-    id: "monkey",
+    id: "monkey-animal",
     symbol: "猴",
     pinyin: "hóu",
     meaning: "Monkey",
@@ -842,7 +842,7 @@ export const chineseSymbols: ChineseSymbol[] = [
     tags: ["treasure", "precious", "luck", "valuable"],
   },
   {
-    id: "prosperity",
+    id: "prosperity-2",
     symbol: "富",
     pinyin: "fù",
     meaning: "Rich/Prosperous",
@@ -891,7 +891,7 @@ export const chineseSymbols: ChineseSymbol[] = [
     tags: ["sadness", "sorrow", "melancholy", "emotion"],
   },
   {
-    id: "anger",
+    id: "anger-2",
     symbol: "怒",
     pinyin: "nù",
     meaning: "Anger/Rage",
