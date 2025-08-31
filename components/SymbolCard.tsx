@@ -1,7 +1,7 @@
 "use client";
 
 import { ChineseSymbol, SymbolCategory } from "@/types/symbol";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { generateCategoryKey } from "@/utils/keyGenerator";
@@ -52,7 +52,7 @@ export default function SymbolCard({
     }
   };
 
-  const handleSpeak = () => {
+  const handleSpeak = useCallback(() => {
     // 停止当前播放
     if (speechSynthesisRef.current) {
       speechSynthesis.speak(speechSynthesisRef.current);
@@ -84,7 +84,7 @@ export default function SymbolCard({
 
     speechSynthesisRef.current = utterance;
     speechSynthesis.speak(utterance);
-  };
+  }, [symbol.symbol]);
 
   // 自动播放功能
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function SymbolCard({
 
       return () => clearTimeout(timer);
     }
-  }, [userData.preferences.autoPlay]);
+  }, [userData.preferences.autoPlay, isPlaying, handleSpeak]);
 
   const handleStopSpeak = () => {
     if (speechSynthesisRef.current) {

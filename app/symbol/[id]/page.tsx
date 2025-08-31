@@ -112,7 +112,8 @@ export default function SymbolDetailPage() {
             Symbol Not Found
           </h1>
           <p className="text-gray-500 mb-6">
-            The symbol you're looking for doesn't exist or has been removed
+            The symbol you&apos;re looking for doesn&apos;t exist or has been
+            removed
           </p>
           <button
             onClick={() => router.back()}

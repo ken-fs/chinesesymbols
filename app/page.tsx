@@ -60,7 +60,7 @@ export default function Home() {
     });
 
     return filtered;
-  }, [selectedCategory, searchTerm, chineseSymbols]);
+  }, [selectedCategory, searchTerm]);
 
   const handleCopy = (symbol: string) => {
     setToast({
@@ -184,7 +184,9 @@ export default function Home() {
                 {searchTerm && (
                   <span className="ml-2">
                     • Search:{" "}
-                    <span className="text-tech-red-400">"{searchTerm}"</span>
+                    <span className="text-tech-red-400">
+                      &ldquo;{searchTerm}&rdquo;
+                    </span>
                   </span>
                 )}
               </p>
