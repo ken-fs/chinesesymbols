@@ -9,7 +9,7 @@ interface SearchBarProps {
 
 export default function SearchBar({
   onSearch,
-  placeholder = "搜索中文符号...",
+  placeholder = "Search Chinese symbols...",
 }: SearchBarProps) {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -81,13 +81,13 @@ export default function SearchBar({
       <button
         type="submit"
         className="
-          absolute right-2 top-1/2 transform -translate-y-1/2
-          cyber-button px-4 py-1 rounded-md text-sm
-          text-tech-red-300 hover:text-white
-          transition-all duration-300
-        "
+            absolute right-2 top-1/2 transform -translate-y-1/2
+            cyber-button px-4 py-1 rounded-md text-sm
+            text-tech-red-300 hover:text-white
+            transition-all duration-300
+          "
       >
-        搜索
+        Search
       </button>
     </form>
   );

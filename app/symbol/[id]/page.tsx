@@ -32,13 +32,13 @@ export default function SymbolDetailPage() {
     try {
       await navigator.clipboard.writeText(text);
       setToast({
-        message: `已复制 "${text}" 到剪贴板`,
+        message: `Copied "${text}" to clipboard`,
         isVisible: true,
         type: "success",
       });
     } catch (err) {
       setToast({
-        message: "复制失败，请重试",
+        message: "Copy failed, please try again",
         isVisible: true,
         type: "error",
       });
@@ -54,13 +54,17 @@ export default function SymbolDetailPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">🔍</div>
-          <h1 className="text-2xl font-cyber text-gray-400 mb-2">符号未找到</h1>
-          <p className="text-gray-500 mb-6">您查找的符号不存在或已被删除</p>
+          <h1 className="text-2xl font-cyber text-gray-400 mb-2">
+            Symbol Not Found
+          </h1>
+          <p className="text-gray-500 mb-6">
+            The symbol you're looking for doesn't exist or has been removed
+          </p>
           <button
             onClick={() => router.back()}
             className="cyber-button px-6 py-3 rounded-lg text-tech-red-300 hover:text-white transition-colors"
           >
-            返回上一页
+            Go Back
           </button>
         </div>
       </div>
@@ -93,9 +97,11 @@ export default function SymbolDetailPage() {
                 d="M15 19l-7-7 7-7"
               />
             </svg>
-            <span>返回</span>
+            <span>Back</span>
           </button>
-          <h1 className="text-xl font-cyber text-tech-red-400">符号详情</h1>
+          <h1 className="text-xl font-cyber text-tech-red-400">
+            Symbol Details
+          </h1>
           <div className="w-20"></div> {/* 占位符保持居中 */}
         </div>
       </header>
@@ -129,13 +135,13 @@ export default function SymbolDetailPage() {
                 onClick={() => handleCopy(symbol.symbol)}
                 className="cyber-button px-6 py-3 rounded-lg text-tech-red-300 hover:text-white transition-all duration-300"
               >
-                📋 复制符号
+                📋 Copy Symbol
               </button>
               <button
                 onClick={() => handleCopy(symbol.pinyin)}
                 className="cyber-button px-6 py-3 rounded-lg text-tech-red-300 hover:text-white transition-all duration-300"
               >
-                📋 复制拼音
+                📋 Copy Pinyin
               </button>
             </div>
           </div>
@@ -145,7 +151,7 @@ export default function SymbolDetailPage() {
             {/* 分类信息 */}
             <div className="glass-effect rounded-xl p-6">
               <h2 className="text-xl font-cyber text-tech-red-400 mb-4">
-                分类信息
+                Category Information
               </h2>
               <div className="space-y-3">
                 {symbolCategories.map((category) => (
@@ -170,7 +176,7 @@ export default function SymbolDetailPage() {
             {/* 标签信息 */}
             <div className="glass-effect rounded-xl p-6">
               <h2 className="text-xl font-cyber text-tech-red-400 mb-4">
-                相关标签
+                Related Tags
               </h2>
               <div className="flex flex-wrap gap-2">
                 {symbol.tags.map((tag) => (
@@ -189,10 +195,10 @@ export default function SymbolDetailPage() {
                     <span className="text-2xl">🔥</span>
                     <div>
                       <div className="font-semibold text-tech-red-400">
-                        热门符号
+                        Popular Symbol
                       </div>
                       <div className="text-sm text-gray-400">
-                        这个符号很受欢迎
+                        This symbol is very popular
                       </div>
                     </div>
                   </div>
@@ -204,28 +210,28 @@ export default function SymbolDetailPage() {
           {/* 使用建议 */}
           <div className="mt-8 glass-effect rounded-xl p-6">
             <h2 className="text-xl font-cyber text-tech-red-400 mb-4">
-              使用建议
+              Usage Suggestions
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-4 bg-tech-red-500/10 rounded-lg border border-tech-red-500/20">
                 <div className="text-2xl mb-2">💬</div>
-                <h3 className="font-semibold text-white mb-2">社交媒体</h3>
+                <h3 className="font-semibold text-white mb-2">Social Media</h3>
                 <p className="text-sm text-gray-400">
-                  可以在微信、微博等社交平台使用这个符号
+                  Use this symbol on social platforms like WeChat, Weibo, etc.
                 </p>
               </div>
               <div className="p-4 bg-tech-red-500/10 rounded-lg border border-tech-red-500/20">
                 <div className="text-2xl mb-2">🎨</div>
-                <h3 className="font-semibold text-white mb-2">设计作品</h3>
+                <h3 className="font-semibold text-white mb-2">Design Works</h3>
                 <p className="text-sm text-gray-400">
-                  适合用于海报、logo等设计作品中
+                  Perfect for posters, logos, and other design projects
                 </p>
               </div>
               <div className="p-4 bg-tech-red-500/10 rounded-lg border border-tech-red-500/20">
                 <div className="text-2xl mb-2">📚</div>
-                <h3 className="font-semibold text-white mb-2">学习中文</h3>
+                <h3 className="font-semibold text-white mb-2">Learn Chinese</h3>
                 <p className="text-sm text-gray-400">
-                  有助于学习中文文化和汉字含义
+                  Helpful for learning Chinese culture and character meanings
                 </p>
               </div>
             </div>

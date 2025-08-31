@@ -15,7 +15,7 @@ export default function CategoryFilter({
   return (
     <div className="w-full">
       <h3 className="text-lg font-cyber text-tech-red-400 mb-4 neon-text">
-        分类筛选
+        Category Filter
       </h3>
 
       {/* 全部按钮 */}
@@ -33,8 +33,8 @@ export default function CategoryFilter({
         <div className="flex items-center space-x-3">
           <span className="text-2xl">🌟</span>
           <div>
-            <div className="font-semibold">全部符号</div>
-            <div className="text-xs opacity-75">浏览所有中文符号</div>
+            <div className="font-semibold">All Symbols</div>
+            <div className="text-xs opacity-75">Browse all Chinese symbols</div>
           </div>
         </div>
       </button>

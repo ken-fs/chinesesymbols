@@ -40,7 +40,7 @@ export default function Home() {
 
   const handleCopy = (symbol: string) => {
     setToast({
-      message: `已复制 "${symbol}" 到剪贴板`,
+      message: `Copied "${symbol}" to clipboard`,
       isVisible: true,
       type: "success",
     });
@@ -57,10 +57,11 @@ export default function Home() {
         <div className="absolute inset-0 bg-neon-glow opacity-20" />
         <div className="relative z-10">
           <h1 className="text-6xl md:text-8xl font-cyber font-bold neon-text mb-4 animate-fade-in">
-            中文符号
+            Chinese Symbols
           </h1>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            探索中文字符的美丽与意义 • 复制粘贴中文符号 • 学习传统文化
+            Explore the beauty and meaning of Chinese characters • Copy and
+            paste Chinese symbols • Learn traditional culture
           </p>
 
           {/* 搜索栏 */}
@@ -88,17 +89,17 @@ export default function Home() {
             {/* 结果统计 */}
             <div className="mb-6">
               <h2 className="text-2xl font-cyber text-tech-red-400 mb-2">
-                符号展示
+                Symbol Gallery
               </h2>
               <p className="text-gray-400">
-                找到{" "}
+                Found{" "}
                 <span className="text-tech-red-400 font-semibold">
                   {filteredSymbols.length}
                 </span>{" "}
-                个符号
+                symbols
                 {selectedCategory && (
                   <span className="ml-2">
-                    • 分类:{" "}
+                    • Category:{" "}
                     <span className="text-tech-red-400">
                       {selectedCategory}
                     </span>
@@ -106,7 +107,7 @@ export default function Home() {
                 )}
                 {searchTerm && (
                   <span className="ml-2">
-                    • 搜索:{" "}
+                    • Search:{" "}
                     <span className="text-tech-red-400">"{searchTerm}"</span>
                   </span>
                 )}
@@ -115,7 +116,7 @@ export default function Home() {
 
             {/* 符号网格 */}
             {filteredSymbols.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
                 {filteredSymbols.map((symbol) => (
                   <div key={symbol.id} className="animate-slide-up">
                     <SymbolCard symbol={symbol} onCopy={handleCopy} />
@@ -126,9 +127,11 @@ export default function Home() {
               <div className="text-center py-12">
                 <div className="text-6xl mb-4">🔍</div>
                 <h3 className="text-xl font-cyber text-gray-400 mb-2">
-                  未找到匹配的符号
+                  No matching symbols found
                 </h3>
-                <p className="text-gray-500">尝试调整搜索条件或选择其他分类</p>
+                <p className="text-gray-500">
+                  Try adjusting your search terms or select a different category
+                </p>
               </div>
             )}
           </section>
@@ -139,10 +142,12 @@ export default function Home() {
       <footer className="border-t border-tech-red-500/20 py-8 px-6">
         <div className="container mx-auto text-center">
           <p className="text-gray-400 mb-2">
-            Chinese Symbols © 2025 - 您可信赖的中文符号资源
+            Chinese Symbols © 2025 - Your trusted source for authentic Chinese
+            symbols
           </p>
           <p className="text-sm text-gray-500">
-            复制粘贴中文符号 | 中文符号纹身 | 中文符号含义 | 学习中文符号
+            Copy and paste Chinese symbols | Chinese symbols for tattoos |
+            Chinese symbols meanings | Learn Chinese symbols
           </p>
         </div>
       </footer>
