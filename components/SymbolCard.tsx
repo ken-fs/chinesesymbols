@@ -3,6 +3,7 @@
 import { ChineseSymbol } from "@/types/symbol";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useUserPreferences } from "@/hooks/useUserPreferences";
 
 interface SymbolCardProps {
   symbol: ChineseSymbol;
@@ -22,6 +23,8 @@ export default function SymbolCard({
   const [isPlaying, setIsPlaying] = useState(false);
   const router = useRouter();
   const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const { isFavorite, addFavorite, removeFavorite, addToRecentlyUsed } =
+    useUserPreferences();
 
   // 清理函数，组件卸载时停止语音播放
   useEffect(() => {
@@ -85,6 +88,19 @@ export default function SymbolCard({
     }
   };
 
+  const handleFavorite = () => {
+    if (isFavorite(symbol.id)) {
+      removeFavorite(symbol.id);
+    } else {
+      addFavorite(symbol.id);
+    }
+  };
+
+  const handleDetailsClick = () => {
+    addToRecentlyUsed(symbol.id);
+    router.push(`/symbol/${symbol.id}`);
+  };
+
   return (
     <div
       className={`
@@ -105,8 +121,22 @@ export default function SymbolCard({
 
       {/* 符号显示 */}
       <div className="text-center mb-3 flex-shrink-0">
-        <div className="text-4xl font-chinese mb-1 neon-text animate-float">
-          {symbol.symbol}
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex-1"></div>
+          <div className="text-4xl font-chinese neon-text animate-float">
+            {symbol.symbol}
+          </div>
+          <button onClick={handleFavorite} className="flex-1 flex justify-end">
+            <span
+              className={`text-lg transition-colors duration-200 ${
+                isFavorite(symbol.id)
+                  ? "text-yellow-400"
+                  : "text-gray-400 hover:text-yellow-400"
+              }`}
+            >
+              {isFavorite(symbol.id) ? "⭐" : "☆"}
+            </span>
+          </button>
         </div>
         <div className="text-tech-red-400 font-cyber text-sm">
           {symbol.pinyin}
@@ -203,7 +233,7 @@ export default function SymbolCard({
 
         <button
           className="cyber-button px-2 py-1.5 rounded-lg text-xs font-cyber text-tech-red-300 hover:text-white transition-all duration-300 flex-1"
-          onClick={() => router.push(`/symbol/${symbol.id}`)}
+          onClick={handleDetailsClick}
         >
           🔍 Details
         </button>

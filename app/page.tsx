@@ -7,11 +7,15 @@ import SymbolCard from "@/components/SymbolCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import SearchBar from "@/components/SearchBar";
 import Toast from "@/components/Toast";
+import QuickAccessMenu from "@/components/QuickAccessMenu";
+import UserSettingsPanel from "@/components/UserSettingsPanel";
+import { useUserPreferences } from "@/hooks/useUserPreferences";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] =
     useState<SymbolCategory | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     isVisible: boolean;
@@ -21,6 +25,7 @@ export default function Home() {
     isVisible: false,
     type: "success",
   });
+  const { userData } = useUserPreferences();
 
   // 筛选符号
   const filteredSymbols = useMemo(() => {
@@ -55,6 +60,14 @@ export default function Home() {
     }
   };
 
+  const handleSymbolClick = (symbolId: string) => {
+    // 滚动到符号位置
+    const element = document.getElementById(`symbol-${symbolId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
   const closeToast = () => {
     setToast((prev) => ({ ...prev, isVisible: false }));
   };
@@ -74,8 +87,41 @@ export default function Home() {
           </p>
 
           {/* 搜索栏 */}
-          <div className="max-w-md mx-auto">
+          <div className="max-w-md mx-auto mb-6">
             <SearchBar onSearch={setSearchTerm} />
+          </div>
+
+          {/* 快速访问和设置 */}
+          <div className="flex items-center justify-center space-x-4">
+            <QuickAccessMenu
+              onSymbolClick={handleSymbolClick}
+              onCategoryClick={handleCategoryClick}
+            />
+            <button
+              onClick={() => setIsSettingsOpen(true)}
+              className="cyber-button px-4 py-2 rounded-lg text-tech-red-300 hover:text-white transition-all duration-300 flex items-center space-x-2"
+            >
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              <span>Settings</span>
+            </button>
           </div>
         </div>
       </header>
@@ -127,7 +173,11 @@ export default function Home() {
             {filteredSymbols.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
                 {filteredSymbols.map((symbol) => (
-                  <div key={symbol.id} className="animate-slide-up">
+                  <div
+                    key={symbol.id}
+                    id={`symbol-${symbol.id}`}
+                    className="animate-slide-up"
+                  >
                     <SymbolCard
                       symbol={symbol}
                       onCopy={handleCopy}
@@ -172,6 +222,12 @@ export default function Home() {
         isVisible={toast.isVisible}
         type={toast.type}
         onClose={closeToast}
+      />
+
+      {/* 用户设置面板 */}
+      <UserSettingsPanel
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
       />
     </div>
   );
