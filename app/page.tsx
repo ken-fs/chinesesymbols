@@ -8,15 +8,13 @@ import CategoryFilter from "@/components/CategoryFilter";
 import SearchBar from "@/components/SearchBar";
 import Toast from "@/components/Toast";
 import QuickAccessMenu from "@/components/QuickAccessMenu";
-import UserSettingsPanel from "@/components/UserSettingsPanel";
-import { useUserPreferences } from "@/hooks/useUserPreferences";
+import HelpMenu from "@/components/HelpMenu";
 import { generateSymbolKey } from "@/utils/keyGenerator";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] =
     useState<SymbolCategory | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     isVisible: boolean;
@@ -26,23 +24,7 @@ export default function Home() {
     isVisible: false,
     type: "success",
   });
-  const { userData } = useUserPreferences();
 
-  // 获取字体大小类名
-  const getFontSizeClass = (size: "small" | "medium" | "large") => {
-    switch (size) {
-      case "small":
-        return "text-sm";
-      case "medium":
-        return "text-base";
-      case "large":
-        return "text-lg";
-      default:
-        return "text-base";
-    }
-  };
-
-  const fontSizeClass = getFontSizeClass(userData.preferences.fontSize);
 
   // 筛选符号
   const filteredSymbols = useMemo(() => {
@@ -100,9 +82,7 @@ export default function Home() {
           <h1 className="text-6xl md:text-8xl font-cyber font-bold neon-text mb-4 animate-fade-in">
             Chinese Symbols
           </h1>
-          <p
-            className={`text-xl ${fontSizeClass} text-gray-300 mb-8 max-w-2xl mx-auto`}
-          >
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Explore the beauty and meaning of Chinese characters • Copy and
             paste Chinese symbols • Learn traditional culture
           </p>
@@ -112,37 +92,13 @@ export default function Home() {
             <SearchBar onSearch={setSearchTerm} />
           </div>
 
-          {/* 快速访问和设置 */}
+          {/* 快速访问和帮助 */}
           <div className="flex items-center justify-center space-x-4">
             <QuickAccessMenu
               onSymbolClick={handleSymbolClick}
               onCategoryClick={handleCategoryClick}
             />
-            <button
-              onClick={() => setIsSettingsOpen(true)}
-              className="cyber-button px-4 py-2 rounded-lg text-tech-red-300 hover:text-white transition-all duration-300 flex items-center space-x-2"
-            >
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              <span>Settings</span>
-            </button>
+            <HelpMenu />
           </div>
         </div>
       </header>
@@ -247,11 +203,6 @@ export default function Home() {
         onClose={closeToast}
       />
 
-      {/* 用户设置面板 */}
-      <UserSettingsPanel
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-      />
     </div>
   );
 }

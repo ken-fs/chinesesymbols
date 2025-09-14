@@ -70,8 +70,7 @@ interface ChineseSymbol {
 │   ├── SymbolCard.tsx     # Individual symbol display
 │   ├── SearchBar.tsx      # Search functionality
 │   ├── CategoryFilter.tsx # Category filtering
-│   ├── Toast.tsx          # Notification system
-│   └── UserSettingsPanel.tsx # User preferences
+│   └── Toast.tsx          # Notification system
 ├── data/                  # Static data files
 │   ├── symbols.ts         # Main symbol dataset (50+ symbols)
 │   └── categories.ts      # Category definitions
@@ -102,7 +101,6 @@ interface ChineseSymbol {
 - `SearchBar` - Real-time search with debouncing
 - `CategoryFilter` - Multi-category filtering system
 - `Toast` - Toast notifications for user feedback
-- `UserSettingsPanel` - User customization options
 
 ### Routing
 - App Router with dynamic routes: `/symbol/[id]`
@@ -150,3 +148,18 @@ Edit `data/symbols.ts` and add new symbol objects:
 - Use React.memo for expensive components
 - Implement proper key props for list rendering
 - Optimize images and animations for smooth performance
+
+## Documentation Standards
+
+### Language Requirements
+- **All help documentation MUST be written in English** - The project targets Western/international users
+- User interface elements should be in English by default
+- Chinese characters are content (symbols), but explanations are in English
+- SEO optimization should target English keywords and international audience
+
+### Documentation Guidelines
+- Write comprehensive guides with proper SEO metadata
+- Include detailed explanations of Chinese cultural concepts for Western users
+- Use clear, professional English suitable for international audience
+- Provide cultural context to help non-Chinese users understand symbol meanings
+- Structure content with proper headings and navigation for better UX
