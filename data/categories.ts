@@ -107,6 +107,13 @@ export const categories: CategoryInfo[] = [
     color: "from-amber-600 to-yellow-600",
   },
   {
+    id: "Internet & Slang",
+    name: "Internet & Slang",
+    description: "Trending buzzwords, memes and modern slang",
+    icon: "🔥",
+    color: "from-red-500 to-orange-500",
+  },
+  {
     id: "Numbers",
     name: "Numbers",
     description: "Chinese number symbols and characters",

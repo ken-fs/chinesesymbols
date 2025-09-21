@@ -6,6 +6,7 @@ import { ChineseSymbol } from "@/types/symbol";
 import { chineseSymbols } from "@/data/symbols";
 import { categories } from "@/data/categories";
 import Toast from "@/components/Toast";
+import { useUserPreferences } from "@/hooks/useUserPreferences";
 
 export default function SymbolDetailPage() {
   const params = useParams();
@@ -22,6 +23,7 @@ export default function SymbolDetailPage() {
     type: "success",
   });
   const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const { userData } = useUserPreferences();
 
   useEffect(() => {
     const foundSymbol = chineseSymbols.find((s) => s.id === params.id);
@@ -171,17 +173,29 @@ export default function SymbolDetailPage() {
             </div>
 
             <div className="space-y-4">
-              <h1 className="text-3xl font-cyber text-white mb-2">
-                {symbol.meaning}
-              </h1>
+              {(() => {
+                const lang = userData.preferences.language;
+                const meaningText = symbol.i18n?.[lang]?.meaning || symbol.meaning;
+                return (
+                  <h1 className="text-3xl font-cyber text-white mb-2">
+                    {meaningText}
+                  </h1>
+                );
+              })()}
 
               <div className="text-xl text-tech-red-400 font-cyber mb-4">
                 {symbol.pinyin}
               </div>
 
-              <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-                {symbol.description}
-              </p>
+              {(() => {
+                const lang = userData.preferences.language;
+                const descText = symbol.i18n?.[lang]?.description || symbol.description;
+                return (
+                  <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+                    {descText}
+                  </p>
+                );
+              })()}
             </div>
 
             {/* 操作按钮 */}

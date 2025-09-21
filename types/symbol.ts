@@ -4,6 +4,12 @@ export interface ChineseSymbol {
   pinyin: string;
   meaning: string;
   description: string;
+  // Optional multi-language content. Components fall back to top-level
+  // meaning/description if a translation is missing.
+  i18n?: {
+    en?: { meaning: string; description: string };
+    zh?: { meaning: string; description: string };
+  };
   categories: SymbolCategory[];
   tags: string[];
   isPopular?: boolean;
@@ -25,7 +31,8 @@ export type SymbolCategory =
   | "Wisdom & Knowledge"
   | "Emotions & Feelings"
   | "Chinese Idioms"
-  | "Numbers";
+  | "Numbers"
+  | "Internet & Slang";
 
 export interface CategoryInfo {
   id: SymbolCategory;

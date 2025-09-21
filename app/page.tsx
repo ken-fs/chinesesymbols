@@ -28,15 +28,23 @@ export default function Home() {
 
   // 筛选符号
   const filteredSymbols = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
     const filtered = chineseSymbols.filter((symbol) => {
       const matchesCategory =
         !selectedCategory || symbol.categories.includes(selectedCategory);
+      const i18nEn = symbol.i18n?.en;
+      const i18nZh = symbol.i18n?.zh;
       const matchesSearch =
-        !searchTerm ||
+        !term ||
         symbol.symbol.includes(searchTerm) ||
-        symbol.pinyin.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        symbol.meaning.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        symbol.description.toLowerCase().includes(searchTerm.toLowerCase());
+        symbol.pinyin.toLowerCase().includes(term) ||
+        symbol.meaning.toLowerCase().includes(term) ||
+        symbol.description.toLowerCase().includes(term) ||
+        (i18nEn?.meaning?.toLowerCase?.().includes(term) ?? false) ||
+        (i18nEn?.description?.toLowerCase?.().includes(term) ?? false) ||
+        (i18nZh?.meaning?.includes(searchTerm) ?? false) ||
+        (i18nZh?.description?.includes(searchTerm) ?? false) ||
+        symbol.tags.some((t) => t.toLowerCase().includes(term));
 
       return matchesCategory && matchesSearch;
     });

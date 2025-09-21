@@ -81,9 +81,16 @@ export default function QuickAccessMenu({
                       <div className="text-2xl font-chinese mb-1">
                         {symbol.symbol}
                       </div>
-                      <div className="text-xs text-gray-400 truncate">
-                        {symbol.meaning}
-                      </div>
+                      {(() => {
+                        const lang = userData.preferences.language;
+                        const meaningText =
+                          symbol.i18n?.[lang]?.meaning || symbol.meaning;
+                        return (
+                          <div className="text-xs text-gray-400 truncate">
+                            {meaningText}
+                          </div>
+                        );
+                      })()}
                     </button>
                   ))}
                 </div>
@@ -109,9 +116,16 @@ export default function QuickAccessMenu({
                       <div className="text-2xl font-chinese mb-1">
                         {symbol.symbol}
                       </div>
-                      <div className="text-xs text-gray-400 truncate">
-                        {symbol.meaning}
-                      </div>
+                      {(() => {
+                        const lang = userData.preferences.language;
+                        const meaningText =
+                          symbol.i18n?.[lang]?.meaning || symbol.meaning;
+                        return (
+                          <div className="text-xs text-gray-400 truncate">
+                            {meaningText}
+                          </div>
+                        );
+                      })()}
                     </button>
                   ))}
                 </div>

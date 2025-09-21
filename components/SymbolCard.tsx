@@ -178,14 +178,23 @@ export default function SymbolCard({
 
       {/* 含义和描述区域 */}
       <div className="text-center flex-grow flex flex-col justify-center mb-3">
-        <h3 className="text-sm font-semibold text-white mb-2 line-clamp-1">
-          {symbol.meaning}
-        </h3>
-        <p
-          className={`text-gray-300 ${fontSizeClass} line-clamp-2 leading-relaxed`}
-        >
-          {symbol.description}
-        </p>
+        {(() => {
+          const lang = userData.preferences.language;
+          const meaningText = symbol.i18n?.[lang]?.meaning || symbol.meaning;
+          const descText = symbol.i18n?.[lang]?.description || symbol.description;
+          return (
+            <>
+              <h3 className="text-sm font-semibold text-white mb-2 line-clamp-1">
+                {meaningText}
+              </h3>
+              <p
+                className={`text-gray-300 ${fontSizeClass} line-clamp-2 leading-relaxed`}
+              >
+                {descText}
+              </p>
+            </>
+          );
+        })()}
       </div>
 
       {/* 分类标签区域 */}
@@ -207,6 +216,7 @@ export default function SymbolCard({
               "Objects & Tools": "Tools",
               "Chinese Idioms": "Idioms",
               Numbers: "Numbers",
+              "Internet & Slang": "Slang",
             };
             return abbreviations[cat] || cat;
           };
