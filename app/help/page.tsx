@@ -25,6 +25,12 @@ const helpCategories = [
         badge: "Essential",
       },
       {
+        title: "Internet & Slang Guide",
+        href: "/help/internet-slang-guide",
+        description: "Trending terms with bilingual meanings and context",
+        badge: "New",
+      },
+      {
         title: "Tattoo Design Guide", 
         href: "/help/tattoo-design-guide",
         description: "How to choose the right Chinese symbols for tattoo designs",

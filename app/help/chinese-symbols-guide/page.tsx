@@ -209,6 +209,16 @@ export default function ChineseSymbolsGuidePage() {
                 </p>
                 <span className="text-xs text-tech-red-400">Contains 12 symbols</span>
               </div>
+
+              <div className="p-4 bg-tech-gradient border border-tech-red-500/30 rounded-lg">
+                <h4 className="text-lg text-tech-red-300 mb-2 flex items-center gap-2">
+                  🔥 Internet & Slang
+                </h4>
+                <p className="text-gray-400 text-sm mb-2">
+                  Modern trending terms and memes, such as 内卷(nèi juǎn), 躺平(tǎng píng), AIGC
+                </p>
+                <span className="text-xs text-tech-red-400">Contains 50+ terms</span>
+              </div>
             </div>
           </div>
         </section>

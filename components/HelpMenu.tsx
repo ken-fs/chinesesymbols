@@ -14,6 +14,12 @@ const HelpMenu = () => {
       icon: "📚",
     },
     {
+      title: "Internet & Slang Guide",
+      href: "/help/internet-slang-guide",
+      description: "Trending terms with bilingual meanings",
+      icon: "🔥",
+    },
+    {
       title: "Tattoo Design Guide",
       href: "/help/tattoo-design-guide", 
       description: "Expert advice for Chinese symbol tattoos",
@@ -69,7 +75,7 @@ const HelpMenu = () => {
 
       {/* 下拉菜单 */}
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-80 bg-tech-gradient border border-tech-red-500/30 rounded-lg shadow-[0_0_20px_rgba(255,59,59,0.2)] backdrop-blur-sm z-50 animate-slide-up">
+        <div className="absolute top-full right-0 mt-2 w-96 bg-tech-gradient border border-tech-red-500/30 rounded-lg shadow-[0_0_20px_rgba(255,59,59,0.2)] backdrop-blur-sm z-50 animate-slide-up">
           <div className="p-4">
             <h3 className="text-tech-red-400 font-cyber text-lg mb-4 flex items-center gap-2">
               <span>📖</span>
